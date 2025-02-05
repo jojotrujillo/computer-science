@@ -4,19 +4,9 @@ CS Core
 <!-- "How foolish can you be? After starting your new lives in the Spirit, why are you now trying to become
 perfect by your own human effort?" Galatians 3:3 (NLT) -->
 
-### Statistics
+### Descriptive Statistics
 
 <!-- TODO: Expand out the definitions for the broader categories and perhaps include formulas -->
-
-Two major parts of statistics: descriptive statistics and statistical
-inference. Descriptive statistics includes all of the definitions,
-concepts, and formulas required to create graphical displays like
-frequency distributions, graphs, location of data, spread of data, and
-variability.
-
-Statistical inference leverages probability and includes different
-methods used to achieve point estimation, interval estimates, confidence
-intervals, and hypothesis tests.
 
 #### Concepts
 
