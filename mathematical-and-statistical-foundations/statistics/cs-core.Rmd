@@ -1,10 +1,10 @@
-<!-- "How foolish can you be? After starting your new lives in the Spirit, why are you now trying to become
-perfect by your own human effort?" Galatians 3:3 (NLT) -->
-
 ---
 title: "CS Core"
 output: github_document
 ---
+
+<!-- "How foolish can you be? After starting your new lives in the Spirit, why are you now trying to become
+perfect by your own human effort?" Galatians 3:3 (NLT) -->
 
 ### Statistics
 
@@ -173,9 +173,9 @@ is the sum of all values divided by the number of values. It represents the typi
 dataset into two equal halves.
 
 The difference between each observation, *x~i~*, and the mean ($\bar{x}$ for a sample, $\mu$ for a population)
-is called a *deviation about the mean*. For a sample, a deviation about the mean is written (*x~i~* - $\bar{x}$
-); for a population, it is written (*x~i~* - $\mu$). In the computation of the **variance**, the deviations about
-the mean are *squared*.
+is called a *deviation about the mean*. For a sample, a deviation about the mean is written (*x~i~* -
+$\bar{x}$); for a population, it is written (*x~i~* - $\mu$). In the computation of the **variance**, the
+deviations about the mean are *squared*.
 
 #### Definitions
 
