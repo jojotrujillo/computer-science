@@ -1,0 +1,381 @@
+---
+title: "CS Core"
+output: github_document
+---
+
+<!-- "How foolish can you be? After starting your new lives in the Spirit, why are you now trying to become
+perfect by your own human effort?" Galatians 3:3 (NLT) -->
+
+### Descriptive Statistics
+
+<!-- TODO: Expand out the definitions for the broader categories and perhaps include formulas -->
+
+#### Concepts
+
+Many situations require information about a large group of elements (individuals, companies, voters,
+households, products, customers, and so on). But, because of time, cost, and other considerations, data can
+be collected from only a small portion of the group. The larger group of elements in a particular study is
+called the **population**, and the smaller group is called the **sample**.
+
+As an example of statistical inference, let us consider the study conducted by Norris Electronics. Norris
+manufactures a high-intensity lightbulb used in a variety of electrical products. In an attempt to increase
+the useful life of the lightbulb, the product design group developed a new lightbulb filament. In this case,
+the population is defined as all lightbulbs that could be produced with the new filament. To evaluate the
+advantages of the new filament, 200 bulbs with the new filament were manufactured and tested. Data collected
+from this sample showed the number of hours each lightbulb operated before filament burnout.
+
+#### Definitions
+
+**Population**: the set of all elements of interest in a particular study
+
+**Sample**: a subset of the population
+
+#### Create and interpret frequency tables, and display data graphically and interpret graphs (e.g., histograms).
+
+##### Categorical data
+
+VirtualTourist provides ratings for hotels throughout the world. Ratings provided by 649 guests at the
+Sheraton Anaheim Hotel, located near the Disneyland Resort in Anaheim, California, can be found in the
+DATAfile named *HotelRatings* (VirtualTourist website, February 25, 2013). Possible responses were Excellent,
+Very Good, Average, Poor, and Terrible.
+
+a. Construct a frequency distribution.
+
+```{r}
+hotel_ratings_data <- read.csv("HotelRatings(Data).csv", header = TRUE)
+
+ratings_frequency_table <- table(hotel_ratings_data$Rating)
+
+# Rearrange categories to reflect, "Excellent, ...Terrible"
+ratings_frequency_table <- ratings_frequency_table[c(2, 5, 1, 3, 4)]
+
+ratings_frequency_df <- data.frame(ratings_frequency_table)
+
+names(ratings_frequency_df)[names(ratings_frequency_df) == "Var1"] <- "Rating"
+
+print(ratings_frequency_df)
+sum(ratings_frequency_table)
+```
+
+b. Construct a percent frequency distribution.
+
+```{r}
+ratings_percent_frequency_table <- round(prop.table(ratings_frequency_table) * 100, 0)
+ratings_percent_frequency_df <- data.frame(ratings_percent_frequency_table)
+
+names(ratings_percent_frequency_df)[names(ratings_percent_frequency_df) == "Var1"] <- "Rating"
+names(ratings_percent_frequency_df)[names(ratings_percent_frequency_df) == "Freq"] <- "Percent Freq"
+
+print(ratings_percent_frequency_df)
+sum(ratings_percent_frequency_table)
+```
+
+c. Construct a bar chart for the percent frequency distribution.
+
+```{r}
+barplot(
+  ratings_percent_frequency_table,
+  xlab = "Rating",
+  ylab = "Percent Frequency",
+  # Increase range of y-axis scale
+  ylim = range(pretty(c(0, ratings_percent_frequency_table)))
+)
+```
+
+d. Comment on how guests rate their stay at the Sheraton Anaheim Hotel.
+
+Almost three-quarters of the population had a rating of Very Good or better while about one-quarter of the
+population gave the hotel a rating of Average to Terrible.
+
+e. Results for 1679 guests who stayed at Disney's Grand Californian provided the following frequency
+distribution.
+
+```{r echo = FALSE}
+disneys_californian_ratings <- data.frame(
+  Rating = c("Excellent", "Very Good", "Average", "Poor", "Terrible"),
+  Freq = c(48, 31, 12, 6, 3)
+)
+
+names(disneys_californian_ratings)[names(disneys_californian_ratings) == "Freq"] <- "Percent Freq"
+
+print(disneys_californian_ratings)
+```
+
+&nbsp;&nbsp;&nbsp;Compare the ratings for Disney's Grand Californian with the results obtained for the Sheraton Anaheim Hotel.
+
+A little more than three-quarters, about 80%, of the population for the Disney's hotel ratings study
+responded with a rating of Very Good or better while about 20% of the population responded with ratings of
+Average or lower. So compared to the Sheraton's ratings, Disney's Grand Californian looks to have rated higher
+with patrons.
+
+##### Quantitative data
+
+*Entrepreneur* magazine ranks franchises using performance measures such as growth rate, number of locations,
+startup costs, and financial stability. The number of locations for the top 20 U.S. franchises follow (*The
+World Almanac*, 2012). Use classes 0-4999, 5000-9999, 10,000-14,999, and so forth to answer the following
+questions.
+
+a. Construct a frequency distribution and a percent frequency distribution of the number of U.S. locations for
+these top-ranked franchises.
+
+```{r}
+franchise_locations_data <- read.csv("Franchise(Data).csv", header = TRUE)
+lower_class_limits <- c(0, 5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000)
+
+number_of_locations <- cut(
+  # dig.lab argument is to prevent scientific notation on the class limits
+  # [0, 5) = 0, 1, 2, 3, 4
+  franchise_locations_data$LocationNumbers, breaks = lower_class_limits, dig.lab = 10, include.lowest = TRUE, right = FALSE
+)
+
+franchise_locations_frequency_table <- table(number_of_locations)
+franchise_locations_frequency_df <- data.frame(franchise_locations_frequency_table)
+
+names(franchise_locations_frequency_df)[names(franchise_locations_frequency_df) == "number_of_locations"] <- "# of Locations"
+
+print(franchise_locations_frequency_df)
+sum(franchise_locations_frequency_table)
+
+franchise_locations_percent_freq_table <- round(prop.table(franchise_locations_frequency_table) * 100, 0)
+franchise_locations_percent_freq_df <- data.frame(franchise_locations_percent_freq_table)
+
+names(franchise_locations_percent_freq_df)[names(franchise_locations_percent_freq_df) == "number_of_locations"] <- "# of Locations"
+names(franchise_locations_percent_freq_df)[names(franchise_locations_percent_freq_df) == "Freq"] <- "Percent Freq"
+
+print(franchise_locations_percent_freq_df)
+sum(franchise_locations_percent_freq_table)
+```
+
+b. Construct a histogram of these data.
+
+```{r}
+hist(franchise_locations_data$LocationNumbers, breaks = lower_class_limits, main = "", xlab = "# of Locations")
+```
+
+c. Comment on the shape of the distribution.
+
+The shape of the distribution in the histogram is skewed to the right, and it indicates most of the franchises
+have less than 20,000 locations while 20% of the sample of U.S. franchises have more than 20,000 locations.
+
+#### Concepts
+
+**Measures of central tendency** are statistical tools used to summarize a dataset by identifying the center
+point or typical value within that dataset. They help describe the general trend of data. The *mean (average)*
+is the sum of all values divided by the number of values. It represents the typical value of a dataset. The
+*median* is the middle value when the data is arranged in ascending or descending order. It separates the
+dataset into two equal halves.
+
+The difference between each observation, *x~i~*, and the mean ($\bar{x}$ for a sample, $\mu$ for a population)
+is called a *deviation about the mean*. For a sample, a deviation about the mean is written (*x~i~* -
+$\bar{x}$); for a population, it is written (*x~i~* - $\mu$). In the computation of the **variance**, the
+deviations about the mean are *squared*.
+
+#### Definitions
+
+**Measures of central tendency**: summary measures that attempt to describe a whole set of data with single
+values that represent the middle or center of its distribution. There are three main measures of central
+tendency: mean, median, and mode.
+
+**Variance**: a measure of variability that utilizes all the data. The variance is based on the difference
+between the value of each observation (*x~i~*) and the mean.
+
+#### Recognize, describe, and calculate means, medians, quantiles (location of data).
+
+Over a nine-month period, OutdoorGearLab tested hardshell jackets designed for ice climbing, mountaineering,
+and backpacking. Based on the breathability, durability, versatility, features, mobility, and weight of each
+jacket, an overall rating ranging from 0 (lowest) to 100 (highest) was assigned to each jacket tested. The
+following data show the results for 20 top-of-the-line jackets (OutdoorGearLab website, February 27, 2013).
+
+```{r echo = FALSE}
+jacket_ratings_data <- read.csv("JacketRatings(Data).csv", header = TRUE)
+
+print(jacket_ratings_data)
+```
+
+a. Compute the mean, median, and mode.
+
+```{r}
+jacket_ratings_mean <- mean(jacket_ratings_data$Rating)
+jacket_ratings_median <- median(jacket_ratings_data$Rating)
+jacket_ratings_mode <- names(sort(-table(jacket_ratings_data$Rating)))[1]
+
+print(jacket_ratings_mean)
+print(jacket_ratings_median)
+print(jacket_ratings_mode)
+```
+
+b. Compute the first and third quartiles.
+
+```{r}
+jacket_ratings_quartiles <- quantile(jacket_ratings_data$Rating, probs = c(0.25, 0.75))
+
+print(jacket_ratings_quartiles)
+```
+
+c. Compute and interpret the 90th percentile.
+
+```{r}
+# R's quantile function uses different formulas based on type argument
+jacket_ratings_percentile <- quantile(jacket_ratings_data$Rating, probs = c(0.9), type = 6)
+
+print(jacket_ratings_percentile)
+```
+
+*The Big Bang Theory*, a situation comedy featuring Johnny Galecki, Jim Parsons, and Kaley Cuoco, is one of
+the most watched programs on network television. The first two episodes for the 2011-2012 season premiered on
+September 22, 2011; the first episode attracted 14.1 million viewers and the second episode attracted 14.7
+million viewers. The following table shows the number of viewers in millions for the first 21 episodes of the
+2011-2012 season (*The Big Bang Theory* website, April 17, 2012).
+
+```{r echo = FALSE}
+big_bang_theory_data <- read.csv("BigBangTheory(Data).csv", header = TRUE)
+
+print(big_bang_theory_data)
+```
+
+a. Compute the minimum and maximum number of viewers.
+
+```{r}
+print(min(big_bang_theory_data[,2]))
+print(max(big_bang_theory_data[,2]))
+```
+
+b. Compute the mean, median, and mode.
+
+```{r}
+big_bang_theory_mean <- round(mean(big_bang_theory_data[,2]), 2)
+big_bang_theory_median <- median(big_bang_theory_data[,2])
+big_bang_theory_mode <- names(sort(-table(big_bang_theory_data[,2])))[1]
+
+print(big_bang_theory_mean)
+print(big_bang_theory_median)
+print(big_bang_theory_mode)
+```
+
+c. Compute the first and third quartiles.
+
+```{r}
+big_bang_theory_quartiles <- quantile(big_bang_theory_data[,2], probs = c(0.25, 0.75), type = 6)
+
+print(big_bang_theory_quartiles)
+```
+
+d. Has viewership grown or declined over the 2011-2012 season? Discuss.
+
+```{r}
+plot(
+  big_bang_theory_data[,2], type = "o", ylab = "Viewers (millions)", xlab = "Period", ylim = range(
+    pretty(c(0, 18.0))
+  )
+)
+```
+
+According to this graph, I'd say viewership for the show has stayed fairly stable throughout the season.
+
+#### Recognize, describe, and calculate variances, interquartile ranges (spread of data).
+
+A sample of 10 NCAA college basketball game scores provided the following data.
+
+```{r echo = FALSE}
+ncaa_data <- read.csv("NCAA(Data).csv", header = TRUE)
+
+print(ncaa_data)
+```
+
+a. Compute the mean and standard deviation for the points scored by the winning team.
+
+```{r}
+ncaa_mean <- mean(ncaa_data$WinningPoints)
+ncaa_standard_deviation <- round(sd(ncaa_data$WinningPoints), 2)
+
+print(ncaa_mean)
+print(ncaa_standard_deviation)
+```
+
+b. Assume that the points scored by the winning teams for all NCAA games follow a bell-shaped distribution.
+Using the mean and standard deviation found in part (a), estimate the percentage of all NCAA games in which
+the winning team scores 84 or more points. Estimate the percentage of NCAA games in which the winning team
+score more than 90 points.
+
+```{r}
+cat("z-score for 84 or more points in a game:", round((84 - ncaa_mean) / ncaa_standard_deviation, 2))
+```
+
+Assuming a bell-shaped distribution, and given the Empirical Rule, 68% of the scores are within one standard
+deviation, so the remaining 32%, or 16% of games would have the winning team score more than one standard
+deviation above the mean or a score of 84 or more points.
+
+```{r}
+cat("z-score for 90 or more points in a game:", round((90 - ncaa_mean) / ncaa_standard_deviation, 2))
+```
+
+Again, assuming a bell-shaped distribution, and given the Empirical Rule, approximately 95% of the scores are
+within two standard deviations, so the remaining 5%, or 2.5% of games would have the winning team score more
+than two standard deviations above the mean or a score of 90 or more points.
+
+c. Compute the mean and standard deviation for the winning margin. Do the data contain outliers? Explain.
+
+```{r}
+ncaa_margin_mean <- mean(ncaa_data$WinningMargin)
+ncaa_margin_standard_deviation <- round(sd(ncaa_data$WinningMargin), 2)
+
+print(ncaa_margin_mean)
+print(ncaa_margin_standard_deviation)
+
+cat("z-score for lowest margin, 3:", round((3 - ncaa_margin_mean) / ncaa_margin_standard_deviation, 2))
+cat("z-score for highest margin, 24:", round((24 - ncaa_margin_mean) / ncaa_margin_standard_deviation, 2))
+
+print("Given the Empirical Rule that states almost all values will be within 3 standard deviations given a
+      bell-shaped distribution, and the calculated z-scores for the lowest and highest margin are within about
+      1 standard deviation, then it can be said that there are no outliers in this dataset.")
+```
+
+The Bureau of Transportation Statistics keeps track of all border crossings through ports of entry along the
+U.S.-Canadian and U.S.-Mexican borders. The data contained in the DATAfile named *BorderCrossings* show the
+most recently published figures for the number of personal vehicle crossings (rounded to the nearest 1000) at
+the 50 busiest ports of entry during the month of August (U.S. Department of Transportation website, February
+28, 2013).
+
+a. What are the mean and median number of crossings for these ports of entry?
+
+```{r}
+border_crossings_data <- read.csv("BorderCrossings(Data).csv", header = TRUE)
+
+border_crossings_mean <- mean(border_crossings_data$"PersonalVehicles.1000s.")
+border_crossings_median <- median(border_crossings_data$"PersonalVehicles.1000s.")
+
+print(border_crossings_mean)
+print(border_crossings_median)
+```
+
+b. What are the first and third quartiles?
+
+```{r}
+border_crossings_quartiles <- quantile(border_crossings_data$"PersonalVehicles.1000s.", probs = c(0.25, 0.75), type = 6)
+
+print(border_crossings_quartiles)
+```
+
+c. Provide a five-number summary.
+
+```{r}
+border_crossings_min <- min(border_crossings_data$"PersonalVehicles.1000s.")
+border_crossings_max <- max(border_crossings_data$"PersonalVehicles.1000s.")
+border_crossings_first_quartile <- quantile(border_crossings_data$"PersonalVehicles.1000s.", probs = c(0.25), type = 6)
+border_crossings_third_quartile <- quantile(border_crossings_data$"PersonalVehicles.1000s.", probs = c(0.75), type = 6)
+
+sprintf("Lowest value: %s, First Quartile: %s, Median: %s, Third Quartile: %s, Highest value: %s",
+        border_crossings_min, border_crossings_first_quartile, border_crossings_median,
+        border_crossings_third_quartile, border_crossings_max)
+```
+
+d. Do the data contain any outliers? Show a box plot.
+
+```{r}
+boxplot(border_crossings_data$"PersonalVehicles.1000s.", ylab = "Personal Vehicles (1000s)", ylim = range(pretty(c(0, 1200))))
+# Indicate mean with black dot on box plot
+points(border_crossings_mean, pch = 20, cex = 1.5)
+```
+
+The box plot indicates the data is skewed to the right, or positive. Three data items are considered outliers.
+
