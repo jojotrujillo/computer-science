@@ -1,6 +1,6 @@
 <!-- "'In that day I will restore the fallen house of David. I will repair its damaged walls. From the ruins
 I will rebuild it and restore its former glory. And Israel will possess what is left of Edom and all the
-nations I have called to be mine.' The Lord has spoken, and he will do these things." Amos 9:11-12 (NLT) -->
+nations I have called to be mine.' The Lord has spoken, and he will do these things." (Amos 9:11-12 NLT) -->
 
 # statistics
 
