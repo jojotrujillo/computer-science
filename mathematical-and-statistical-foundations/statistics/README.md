@@ -1,8 +1,20 @@
 <!-- "'In that day I will restore the fallen house of David. I will repair its damaged walls. From the ruins
 I will rebuild it and restore its former glory. And Israel will possess what is left of Edom and all the
-nations I have called to be mine.' The Lord has spoken, and he will do these things." Amos 9:11-12 (NLT) -->
+nations I have called to be mine.' The Lord has spoken, and he will do these things." (Amos 9:11-12 NLT) -->
 
 # statistics
+
+[CS Core](cs-core.md):
+
+1. Basic definitions and concepts: populations, samples, measures of central tendency, variance
+2. Univariate data: point estimation, confidence intervals
+
+KA Core:
+
+3. Multivariate data: estimation, correlation, regression
+4. Data transformation: dimension reduction, smoothing
+5. Statistical models and algorithms
+6. Hypothesis testing
 
 Two major parts of statistics: descriptive statistics and statistical inference.
 Descriptive statistics includes all of the definitions, concepts, and formulas required to create graphical
